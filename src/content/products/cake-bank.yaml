@@ -1,0 +1,25 @@
+name: "Cake by VPBank"
+brand: "Cake"
+category: "Ngân hàng số"
+type: "bank-account"
+short_description: "Ngân hàng số 100% online, mở tài khoản 5 phút qua eKYC, miễn phí toàn bộ giao dịch."
+specs:
+  phi_mo_tk: "Miễn phí"
+  phi_thuong_nien: "Miễn phí"
+  phi_chuyen_khoan: "Miễn phí (kể cả liên ngân hàng)"
+  lai_suat_kkh: "0.5% / năm"
+  lai_suat_ckh: "Tới 5.8% / năm (12 tháng)"
+pros:
+  - "Mở tài khoản 5 phút qua app, không cần ra chi nhánh"
+  - "Miễn 100% phí giao dịch"
+  - "Lãi tiết kiệm cao hơn mặt bằng ngân hàng truyền thống"
+  - "App UI hiện đại, dễ dùng"
+cons:
+  - "Không có chi nhánh vật lý — cần internet"
+  - "Hạn mức giao dịch ban đầu thấp"
+  - "Một số ATM ngoài hệ thống vẫn tính phí rút"
+conditions:
+  do_tuoi: "18+"
+  yeu_cau_giay_to: "CMND/CCCD gắn chip"
+affiliate_slug: "cake-bank"
+official_url: "https://cake.vn"

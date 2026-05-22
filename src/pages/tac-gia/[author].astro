@@ -1,0 +1,80 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '@layouts/BaseLayout.astro';
+import Breadcrumbs from '@components/navigation/Breadcrumbs.astro';
+import { postUrl, TYPE_LABELS, CLUSTER_LABELS } from '@lib/content';
+
+export async function getStaticPaths() {
+  const authors = await getCollection('authors');
+  return authors.map((author) => ({
+    params: { author: author.slug },
+    props: { author },
+  }));
+}
+
+const { author } = Astro.props;
+const { name, bio, role, expertise } = author.data;
+
+const allPosts = await getCollection('posts', ({ data }) => !data.draft);
+const authorPosts = allPosts
+  .filter((p) => p.data.author.slug === author.slug)
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+---
+
+<BaseLayout
+  title={`${name} — Tác giả`}
+  description={bio.slice(0, 160)}
+>
+  <div class="container-prose py-12">
+    <Breadcrumbs
+      items={[
+        { name: 'Trang chủ', url: '/' },
+        { name: 'Tác giả', url: '/tac-gia/' },
+        { name, url: `/tac-gia/${author.slug}/` },
+      ]}
+    />
+
+    <header class="mt-6 flex flex-col items-start gap-4 md:flex-row md:items-center">
+      <div class="flex h-20 w-20 items-center justify-center rounded-full bg-brand-100 text-3xl font-bold text-brand-700">
+        {name.charAt(0)}
+      </div>
+      <div>
+        <h1 class="text-3xl font-bold tracking-tight text-gray-900">{name}</h1>
+        {role && <p class="mt-1 text-gray-600">{role}</p>}
+        {expertise.length > 0 && (
+          <div class="mt-2 flex flex-wrap gap-1.5">
+            {expertise.map((exp) => (
+              <span class="rounded-full bg-gray-100 px-2.5 py-1 text-xs font-medium text-gray-700">
+                {exp}
+              </span>
+            ))}
+          </div>
+        )}
+      </div>
+    </header>
+
+    <p class="mt-6 text-lg text-gray-700">{bio}</p>
+
+    <section class="mt-12">
+      <h2 class="text-2xl font-bold text-gray-900">Bài viết</h2>
+      {authorPosts.length === 0 ? (
+        <p class="mt-4 text-gray-500">Chưa có bài viết.</p>
+      ) : (
+        <div class="mt-4 space-y-4">
+          {authorPosts.map((post) => (
+            <a
+              href={postUrl(post)}
+              class="block rounded-lg border border-gray-200 bg-white p-5 transition-shadow hover:shadow-md"
+            >
+              <div class="text-xs font-semibold uppercase tracking-wide text-brand-600">
+                {CLUSTER_LABELS[post.data.cluster]} · {TYPE_LABELS[post.data.type]}
+              </div>
+              <h3 class="mt-1 text-lg font-semibold text-gray-900">{post.data.title}</h3>
+              <p class="mt-1 text-sm text-gray-600">{post.data.description}</p>
+            </a>
+          ))}
+        </div>
+      )}
+    </section>
+  </div>
+</BaseLayout>

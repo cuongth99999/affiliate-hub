@@ -1,0 +1,13 @@
+name = "affiliate-hub"
+compatibility_date = "2026-01-01"
+pages_build_output_dir = "dist"
+
+# Bind D1 database — replace database_id with the one from `wrangler d1 create`
+[[d1_databases]]
+binding = "DB"
+database_name = "affiliate-hub-clicks"
+database_id = "REPLACE_WITH_REAL_ID"
+
+# Optional: secrets are set via `wrangler pages secret put <name>`
+# - BEEHIIV_API_KEY
+# - BEEHIIV_PUBLICATION_ID

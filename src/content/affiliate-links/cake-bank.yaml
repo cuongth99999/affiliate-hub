@@ -1,0 +1,8 @@
+target_url: "https://accesstrade.vn/aff/PLACEHOLDER_CAKE"
+network: "accesstrade"
+campaign_id: "cake_2026"
+payout_vnd: 80000
+payout_type: "CPL"
+product_slug: "cake-bank"
+active: true
+note: "Hoa hồng khi user hoàn tất eKYC mở tài khoản"

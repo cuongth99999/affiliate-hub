@@ -1,0 +1,114 @@
+---
+import { CLUSTERS } from '@content/config';
+import { CLUSTER_LABELS, clusterUrl } from '@lib/content';
+
+// Order clusters in nav (active ones first)
+const NAV_CLUSTERS = [
+  'the-tin-dung',
+  'tai-khoan-ngan-hang',
+  'vay-tieu-dung',
+  'chung-khoan',
+  'crypto',
+] as const;
+
+const currentPath = Astro.url.pathname;
+---
+
+<header class="sticky top-0 z-40 border-b border-gray-200 bg-white/95 backdrop-blur-sm">
+  <div class="container-wide">
+    <div class="flex h-16 items-center justify-between">
+      <a href="/" class="flex items-center gap-2 text-lg font-bold text-brand-700">
+        <span class="inline-block h-8 w-8 rounded bg-brand-600"></span>
+        <span>Affiliate Hub</span>
+      </a>
+
+      <nav class="hidden md:block">
+        <ul class="flex items-center gap-6">
+          {
+            NAV_CLUSTERS.map((cluster) => {
+              const href = clusterUrl(cluster);
+              const isActive = currentPath.startsWith(href);
+              return (
+                <li>
+                  <a
+                    href={href}
+                    class:list={[
+                      'text-sm font-medium transition-colors hover:text-brand-600',
+                      isActive ? 'text-brand-700' : 'text-gray-700',
+                    ]}
+                  >
+                    {CLUSTER_LABELS[cluster]}
+                  </a>
+                </li>
+              );
+            })
+          }
+          <li>
+            <a
+              href="/cong-cu/"
+              class:list={[
+                'text-sm font-medium transition-colors hover:text-brand-600',
+                currentPath.startsWith('/cong-cu/') ? 'text-brand-700' : 'text-gray-700',
+              ]}
+            >
+              Công cụ
+            </a>
+          </li>
+        </ul>
+      </nav>
+
+      <a
+        href="/cong-cu/the-tin-dung-nao-phu-hop/"
+        class="hidden rounded-md bg-brand-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-brand-700 md:inline-block"
+      >
+        Tìm thẻ phù hợp
+      </a>
+
+      <button
+        type="button"
+        class="md:hidden"
+        aria-label="Mở menu"
+        data-mobile-menu-toggle
+      >
+        <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+        </svg>
+      </button>
+    </div>
+
+    <nav class="hidden border-t border-gray-100 py-2 md:hidden" data-mobile-menu>
+      <ul class="flex flex-col gap-1">
+        {
+          NAV_CLUSTERS.map((cluster) => (
+            <li>
+              <a
+                href={clusterUrl(cluster)}
+                class="block rounded px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 hover:text-brand-600"
+              >
+                {CLUSTER_LABELS[cluster]}
+              </a>
+            </li>
+          ))
+        }
+        <li>
+          <a
+            href="/cong-cu/"
+            class="block rounded px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 hover:text-brand-600"
+          >
+            Công cụ
+          </a>
+        </li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<script>
+  const toggle = document.querySelector('[data-mobile-menu-toggle]');
+  const menu = document.querySelector('[data-mobile-menu]');
+  if (toggle && menu) {
+    toggle.addEventListener('click', () => {
+      menu.classList.toggle('hidden');
+    });
+  }
+</script>

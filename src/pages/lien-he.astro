@@ -1,0 +1,35 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import Breadcrumbs from '@components/navigation/Breadcrumbs.astro';
+---
+
+<BaseLayout
+  title="Liên hệ"
+  description="Liên hệ với Affiliate Hub — phản hồi, đề xuất sản phẩm review, hợp tác."
+>
+  <div class="container-prose py-12">
+    <Breadcrumbs items={[{ name: 'Trang chủ', url: '/' }, { name: 'Liên hệ', url: '/lien-he/' }]} />
+
+    <article class="prose prose-lg mt-6 max-w-none">
+      <h1>Liên hệ</h1>
+      <p>
+        Bạn muốn đề xuất sản phẩm để review, gửi feedback về bài viết, hoặc hợp tác? Liên hệ qua email:
+      </p>
+      <p>
+        <a href="mailto:contact@affiliate-hub.vn">contact@affiliate-hub.vn</a>
+      </p>
+
+      <h2>Đề xuất sản phẩm</h2>
+      <p>
+        Nếu bạn biết một thẻ tín dụng, app vay, hay dịch vụ tài chính thú vị chưa được review, gửi tên
+        + link tới email trên. Chúng tôi sẽ cân nhắc.
+      </p>
+
+      <h2>Báo lỗi nội dung</h2>
+      <p>
+        Thông tin lãi suất, phí thay đổi nhanh. Nếu bạn thấy số liệu sai/lỗi thời, vui lòng gửi email
+        kèm link bài viết — chúng tôi sẽ cập nhật trong 48h.
+      </p>
+    </article>
+  </div>
+</BaseLayout>

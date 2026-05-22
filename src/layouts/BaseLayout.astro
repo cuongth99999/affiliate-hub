@@ -1,0 +1,98 @@
+---
+import '@styles/global.css';
+import BaseSeo from '@components/seo/BaseSeo.astro';
+import OrganizationSchema from '@components/seo/OrganizationSchema.astro';
+import Header from '@components/navigation/Header.astro';
+import Footer from '@components/navigation/Footer.astro';
+import { buildMeta } from '@lib/seo';
+
+interface Props {
+  title: string;
+  description: string;
+  ogImage?: string;
+  ogType?: 'website' | 'article';
+  noindex?: boolean;
+  publishedDate?: Date | string;
+  modifiedDate?: Date | string;
+  author?: string;
+  showOrgSchema?: boolean;
+}
+
+const {
+  title,
+  description,
+  ogImage,
+  ogType,
+  noindex,
+  publishedDate,
+  modifiedDate,
+  author,
+  showOrgSchema = false,
+} = Astro.props;
+
+const siteUrl = Astro.site?.toString() ?? 'https://affiliate-hub.vn/';
+const meta = buildMeta({
+  title,
+  description,
+  path: Astro.url.pathname,
+  siteUrl,
+  ogImage,
+  ogType,
+  noindex,
+  publishedDate,
+  modifiedDate,
+  author,
+});
+
+const plausibleDomain = import.meta.env.PUBLIC_PLAUSIBLE_DOMAIN;
+const plausibleSrc = import.meta.env.PUBLIC_PLAUSIBLE_SRC;
+---
+
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="alternate" type="application/rss+xml" title="RSS feed" href="/rss.xml" />
+    <link rel="sitemap" type="application/xml" href="/sitemap-index.xml" />
+
+    <BaseSeo meta={meta} />
+
+    {showOrgSchema && <OrganizationSchema />}
+
+    {plausibleDomain && plausibleSrc && (
+      <script
+        is:inline
+        defer
+        data-domain={plausibleDomain}
+        src={plausibleSrc}
+      ></script>
+    )}
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+    />
+
+    <slot name="head" />
+  </head>
+  <body class="flex min-h-screen flex-col">
+    <a
+      href="#main"
+      class="sr-only focus:not-sr-only focus:fixed focus:left-2 focus:top-2 focus:z-50 focus:rounded focus:bg-brand-600 focus:px-4 focus:py-2 focus:text-white"
+    >
+      Đi tới nội dung
+    </a>
+
+    <Header />
+
+    <main id="main" class="flex-1">
+      <slot />
+    </main>
+
+    <Footer />
+  </body>
+</html>

@@ -1,0 +1,55 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import Breadcrumbs from '@components/navigation/Breadcrumbs.astro';
+---
+
+<BaseLayout
+  title="Chính sách bảo mật"
+  description="Affiliate Hub bảo vệ dữ liệu cá nhân của bạn — không bán thông tin, sử dụng analytics privacy-friendly."
+>
+  <div class="container-prose py-12">
+    <Breadcrumbs
+      items={[
+        { name: 'Trang chủ', url: '/' },
+        { name: 'Chính sách bảo mật', url: '/chinh-sach-bao-mat/' },
+      ]}
+    />
+
+    <article class="prose prose-lg mt-6 max-w-none">
+      <h1>Chính sách bảo mật</h1>
+      <p>Cập nhật: 22/05/2026</p>
+
+      <h2>Dữ liệu chúng tôi thu thập</h2>
+      <ul>
+        <li>
+          <strong>Analytics ẩn danh</strong>: trang được xem, browser, location ở mức quốc gia. Không
+          theo dõi cá nhân. Chúng tôi dùng Plausible / Umami, không dùng Google Analytics.
+        </li>
+        <li>
+          <strong>Affiliate click</strong>: khi bạn click affiliate link, chúng tôi ghi lại slug + thời
+          gian + referrer. Không ghi IP đầy đủ (chỉ hash để chống spam).
+        </li>
+        <li>
+          <strong>Email</strong> (chỉ khi bạn chủ động đăng ký newsletter).
+        </li>
+      </ul>
+
+      <h2>Cookie</h2>
+      <p>
+        Trang sử dụng cookie tối thiểu. Không có cookie tracking quảng cáo. Bạn có thể block cookie
+        trong browser mà không ảnh hưởng đến trải nghiệm đọc.
+      </p>
+
+      <h2>Bên thứ ba</h2>
+      <p>
+        Khi bạn click affiliate link và rời khỏi trang, bạn đi vào trang của bên thứ ba (Accesstrade,
+        ngân hàng, sàn). Họ có chính sách riêng — vui lòng đọc trước khi cung cấp thông tin.
+      </p>
+
+      <h2>Liên hệ</h2>
+      <p>
+        Nếu có thắc mắc về privacy, gửi email tới <a href="/lien-he/">trang liên hệ</a>.
+      </p>
+    </article>
+  </div>
+</BaseLayout>

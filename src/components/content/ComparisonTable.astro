@@ -1,0 +1,60 @@
+---
+interface ComparisonRow {
+  label: string;
+  values: (string | number | boolean)[];
+}
+
+interface Props {
+  headers: string[];
+  rows: ComparisonRow[];
+  highlightCol?: number;
+}
+
+const { headers, rows, highlightCol } = Astro.props;
+
+const renderValue = (v: string | number | boolean) => {
+  if (typeof v === 'boolean') return v ? '✓' : '✗';
+  return v.toString();
+};
+---
+
+<div class="my-6 overflow-x-auto rounded-lg border border-gray-200">
+  <table class="min-w-full divide-y divide-gray-200 text-sm">
+    <thead class="bg-gray-50">
+      <tr>
+        <th class="px-4 py-3 text-left font-semibold text-gray-900">Tiêu chí</th>
+        {
+          headers.map((h, i) => (
+            <th
+              class:list={[
+                'px-4 py-3 text-left font-semibold',
+                highlightCol === i ? 'bg-brand-50 text-brand-700' : 'text-gray-900',
+              ]}
+            >
+              {h}
+            </th>
+          ))
+        }
+      </tr>
+    </thead>
+    <tbody class="divide-y divide-gray-200 bg-white">
+      {
+        rows.map((row) => (
+          <tr>
+            <td class="px-4 py-3 font-medium text-gray-900">{row.label}</td>
+            {row.values.map((v, i) => (
+              <td
+                class:list={[
+                  'px-4 py-3 text-gray-700',
+                  highlightCol === i && 'bg-brand-50/50',
+                ]}
+              >
+                {renderValue(v)}
+              </td>
+            ))}
+          </tr>
+        ))
+      }
+    </tbody>
+  </table>
+</div>

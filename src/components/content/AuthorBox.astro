@@ -1,0 +1,48 @@
+---
+import { getEntry } from 'astro:content';
+import { authorUrl } from '@lib/content';
+
+interface Props {
+  authorSlug: string;
+  date: Date;
+  modifiedDate?: Date;
+  readingTimeMin?: number;
+}
+
+const { authorSlug, date, modifiedDate, readingTimeMin } = Astro.props;
+const author = await getEntry('authors', authorSlug);
+
+const formatVi = (d: Date) =>
+  new Intl.DateTimeFormat('vi-VN', { day: 'numeric', month: 'long', year: 'numeric' }).format(d);
+---
+
+{
+  author && (
+    <div class="my-6 flex flex-wrap items-center gap-3 border-y border-gray-200 py-4 text-sm">
+      <div class="flex h-10 w-10 items-center justify-center rounded-full bg-brand-100 font-semibold text-brand-700">
+        {author.data.name.charAt(0)}
+      </div>
+      <div class="flex-1">
+        <a href={authorUrl(authorSlug)} class="font-semibold text-gray-900 hover:text-brand-600">
+          {author.data.name}
+        </a>
+        {author.data.role && <span class="text-gray-500"> · {author.data.role}</span>}
+        <div class="text-xs text-gray-500">
+          Đăng {formatVi(date)}
+          {modifiedDate && modifiedDate.valueOf() !== date.valueOf() && (
+            <>
+              {' · '}
+              <span>Cập nhật {formatVi(modifiedDate)}</span>
+            </>
+          )}
+          {readingTimeMin !== undefined && (
+            <>
+              {' · '}
+              <span>{readingTimeMin} phút đọc</span>
+            </>
+          )}
+        </div>
+      </div>
+    </div>
+  )
+}

@@ -1,0 +1,101 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import type { MarkdownHeading } from 'astro';
+import { getEntry } from 'astro:content';
+import BaseLayout from './BaseLayout.astro';
+import Breadcrumbs from '@components/navigation/Breadcrumbs.astro';
+import AuthorBox from '@components/content/AuthorBox.astro';
+import TableOfContents from '@components/content/TableOfContents.astro';
+import RelatedPosts from '@components/content/RelatedPosts.astro';
+import AffiliateDisclosure from '@components/affiliate/AffiliateDisclosure.astro';
+import ArticleSchema from '@components/seo/ArticleSchema.astro';
+import { CLUSTER_LABELS, clusterUrl, TYPE_LABELS, getRelatedPosts, getReadingTimeMinutes, postUrl } from '@lib/content';
+import { canonicalUrl, isoDate } from '@lib/utils';
+
+interface Props {
+  post: CollectionEntry<'posts'>;
+  headings: MarkdownHeading[];
+  showTOC?: boolean;
+  showDisclosure?: boolean;
+}
+
+const { post, headings, showTOC = true, showDisclosure = true } = Astro.props;
+const { title, description, cluster, type, date, modified, author, featured_image, og_image } = post.data;
+
+// Resolve author entry → get clean slug regardless of legacy ref shape
+const authorEntry = await getEntry(author);
+const authorSlug = authorEntry?.slug ?? '';
+const authorName = authorEntry?.data.name ?? '';
+
+const siteUrl = Astro.site?.toString() ?? 'https://affiliate-hub.vn/';
+const url = canonicalUrl(postUrl(post), siteUrl);
+const imageUrl = og_image
+  ? new URL(og_image.src, siteUrl).toString()
+  : featured_image
+    ? new URL(featured_image.src, siteUrl).toString()
+    : new URL('/og-default.jpg', siteUrl).toString();
+
+const related = await getRelatedPosts(post, 3);
+const readingMin = getReadingTimeMinutes(post);
+
+const breadcrumbs = [
+  { name: 'Trang chủ', url: '/' },
+  { name: CLUSTER_LABELS[cluster], url: clusterUrl(cluster) },
+  { name: TYPE_LABELS[type], url: `${clusterUrl(cluster)}${type === 'pillar' ? '' : type + '/'}` },
+  { name: title, url: postUrl(post) },
+];
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  ogImage={og_image?.src ?? featured_image?.src}
+  ogType="article"
+  publishedDate={date}
+  modifiedDate={modified ?? date}
+  author={authorSlug}
+>
+  <ArticleSchema
+    headline={title}
+    description={description}
+    url={url}
+    imageUrl={imageUrl}
+    authorName={authorSlug}
+    authorUrl={`${siteUrl.replace(/\/$/, '')}/tac-gia/${authorSlug}/`}
+    datePublished={isoDate(date)}
+    dateModified={isoDate(modified ?? date)}
+  />
+
+  <article class="container-prose py-8">
+    <Breadcrumbs items={breadcrumbs} />
+
+    <header class="mt-6">
+      <div class="text-sm font-semibold uppercase tracking-wide text-brand-600">
+        {CLUSTER_LABELS[cluster]} · {TYPE_LABELS[type]}
+      </div>
+      <h1 class="mt-2 text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
+        {title}
+      </h1>
+      <p class="mt-3 text-lg text-gray-600">{description}</p>
+
+      <AuthorBox
+        authorSlug={authorSlug}
+        date={date}
+        modifiedDate={modified}
+        readingTimeMin={readingMin}
+      />
+    </header>
+
+    {showDisclosure && <AffiliateDisclosure variant="box" />}
+
+    {showTOC && <TableOfContents headings={headings} />}
+
+    <div class="prose prose-lg max-w-none">
+      <slot />
+    </div>
+
+    <slot name="after-body" />
+
+    <RelatedPosts posts={related} />
+  </article>
+</BaseLayout>

@@ -1,0 +1,126 @@
+name: Accesstrade Weekly Draft
+
+# Monday 02:00 UTC = Monday 09:00 Vietnam (UTC+7)
+on:
+  schedule:
+    - cron: '0 2 * * 1'
+  workflow_dispatch: # allow manual trigger from GitHub UI
+    inputs:
+      max_drafts:
+        description: 'Max drafts to generate (override default)'
+        required: false
+        default: '3'
+
+permissions:
+  contents: write
+  pull-requests: write
+
+concurrency:
+  group: accesstrade-weekly-draft
+  cancel-in-progress: false
+
+jobs:
+  draft:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Checkout main
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 11
+          run_install: false
+
+      - name: Cache pnpm store
+        uses: actions/cache@v4
+        with:
+          path: ~/.local/share/pnpm/store
+          key: pnpm-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml') }}
+          restore-keys: |
+            pnpm-${{ runner.os }}-
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Configure git
+        run: |
+          git config user.name "affiliate-hub-bot"
+          git config user.email "bot@affiliate-hub.vn"
+
+      - name: Run weekly draft pipeline
+        env:
+          ACCESSTRADE_API_TOKEN: ${{ secrets.ACCESSTRADE_API_TOKEN }}
+          ACCESSTRADE_PUBLISHER_ID: ${{ secrets.ACCESSTRADE_PUBLISHER_ID }}
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          ANTHROPIC_MODEL: ${{ vars.ANTHROPIC_MODEL || 'claude-sonnet-4-6' }}
+          AUTO_DRAFT_ENABLED: ${{ vars.AUTO_DRAFT_ENABLED || 'true' }}
+          AUTO_DRAFT_MAX_PER_RUN: ${{ inputs.max_drafts || vars.AUTO_DRAFT_MAX_PER_RUN || '3' }}
+          AUTO_DRAFT_MIN_PAYOUT_VND: ${{ vars.AUTO_DRAFT_MIN_PAYOUT_VND || '100000' }}
+        run: pnpm draft:weekly
+        id: draft
+
+      - name: Push branch (if changes)
+        id: push
+        run: |
+          BRANCH=$(git rev-parse --abbrev-ref HEAD)
+          if [ "$BRANCH" = "main" ] || [ "$BRANCH" = "master" ]; then
+            echo "No auto-draft branch created (nothing to do)"
+            echo "branch=" >> $GITHUB_OUTPUT
+            exit 0
+          fi
+          git push -u origin "$BRANCH"
+          echo "branch=$BRANCH" >> $GITHUB_OUTPUT
+
+      - name: Create Pull Request
+        if: steps.push.outputs.branch != ''
+        id: pr
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          PR_URL=$(gh pr create \
+            --base main \
+            --head "${{ steps.push.outputs.branch }}" \
+            --title "auto-draft: weekly content batch ($(date -u +%Y-%m-%d))" \
+            --body "$(cat <<'EOF'
+          ## 🤖 Auto-generated drafts
+
+          This PR was created automatically by the weekly Accesstrade automation pipeline.
+
+          ### Review checklist (per draft)
+          - [ ] Read draft, fix any AI hallucinations
+          - [ ] Replace `[SCREENSHOT_NEEDED]` with real images
+          - [ ] Verify product specs against official source
+          - [ ] Set `draft: false` in frontmatter
+          - [ ] Confirm affiliate link slug exists in `src/content/affiliate-links/`
+
+          ### Generated content
+          See changed files for the list of new drafts.
+
+          **Do NOT merge without human review.** All posts default to `draft: true` and will not render on the live site until manually flipped.
+          EOF
+          )")
+          echo "pr_url=$PR_URL" >> $GITHUB_OUTPUT
+
+      - name: Send Telegram notification with PR URL
+        if: steps.pr.outputs.pr_url != ''
+        env:
+          ACCESSTRADE_API_TOKEN: ${{ secrets.ACCESSTRADE_API_TOKEN }}
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          GITHUB_PR_URL: ${{ steps.pr.outputs.pr_url }}
+        run: |
+          # Quick standalone notify (full message already sent during pipeline, this is supplement)
+          curl -s -X POST "https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage" \
+            -H "Content-Type: application/json" \
+            -d "{\"chat_id\":\"${TELEGRAM_CHAT_ID}\",\"text\":\"🔗 PR ready for review: ${GITHUB_PR_URL}\",\"disable_web_page_preview\":true}"

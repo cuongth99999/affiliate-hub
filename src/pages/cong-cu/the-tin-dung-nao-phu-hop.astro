@@ -1,0 +1,38 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import Breadcrumbs from '@components/navigation/Breadcrumbs.astro';
+import CreditCardQuiz from '@components/tools/CreditCardQuiz';
+---
+
+<BaseLayout
+  title="Quiz: Thẻ tín dụng nào phù hợp với bạn?"
+  description="Trả lời 4 câu hỏi đơn giản về thu nhập, mục đích và độ tuổi — chúng tôi gợi ý 2-3 thẻ tín dụng phù hợp nhất 2026."
+>
+  <div class="container-prose py-12">
+    <Breadcrumbs
+      items={[
+        { name: 'Trang chủ', url: '/' },
+        { name: 'Công cụ', url: '/cong-cu/' },
+        { name: 'Quiz thẻ phù hợp', url: '/cong-cu/the-tin-dung-nao-phu-hop/' },
+      ]}
+    />
+
+    <header class="mt-6">
+      <h1 class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
+        Thẻ tín dụng nào phù hợp với bạn?
+      </h1>
+      <p class="mt-3 text-lg text-gray-600">
+        4 câu hỏi · 30 giây · Đề xuất 2-3 thẻ phù hợp nhất từ thị trường VN 2026.
+      </p>
+    </header>
+
+    <div class="mt-8">
+      <CreditCardQuiz client:load />
+    </div>
+
+    <p class="mt-6 text-sm text-gray-500">
+      * Quiz này dựa trên rule đơn giản — chỉ dùng để tham khảo. Kết quả thực tế phụ thuộc vào nhiều
+      yếu tố khác (lịch sử tín dụng, công việc cụ thể, v.v.).
+    </p>
+  </div>
+</BaseLayout>

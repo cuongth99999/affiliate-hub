@@ -1,0 +1,61 @@
+---
+import { getCollection, type CollectionEntry } from 'astro:content';
+import PostLayout from '@layouts/PostLayout.astro';
+import ReviewLayout from '@layouts/ReviewLayout.astro';
+import ComparisonLayout from '@layouts/ComparisonLayout.astro';
+import GuideLayout from '@layouts/GuideLayout.astro';
+import FaqLayout from '@layouts/FaqLayout.astro';
+import ListicleLayout from '@layouts/ListicleLayout.astro';
+import { CLUSTERS } from '@content/config';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('posts', ({ data }) => !data.draft && data.type !== 'pillar');
+  return posts.map((post) => {
+    // post.slug = "the-tin-dung/review/vpbank-lady" → strip cluster prefix
+    const cluster = post.data.cluster;
+    const restSlug = post.slug.startsWith(`${cluster}/`)
+      ? post.slug.slice(cluster.length + 1)
+      : post.slug;
+    return {
+      params: { cluster, slug: restSlug },
+      props: { post },
+    };
+  });
+}
+
+interface Props {
+  post: CollectionEntry<'posts'>;
+}
+
+const { post } = Astro.props;
+const { Content, headings } = await post.render();
+const { type } = post.data;
+---
+
+{
+  type === 'review' ? (
+    <ReviewLayout post={post} headings={headings}>
+      <Content />
+    </ReviewLayout>
+  ) : type === 'comparison' ? (
+    <ComparisonLayout post={post} headings={headings}>
+      <Content />
+    </ComparisonLayout>
+  ) : type === 'guide' ? (
+    <GuideLayout post={post} headings={headings}>
+      <Content />
+    </GuideLayout>
+  ) : type === 'faq' ? (
+    <FaqLayout post={post} headings={headings}>
+      <Content />
+    </FaqLayout>
+  ) : type === 'listicle' ? (
+    <ListicleLayout post={post} headings={headings}>
+      <Content />
+    </ListicleLayout>
+  ) : (
+    <PostLayout post={post} headings={headings}>
+      <Content />
+    </PostLayout>
+  )
+}

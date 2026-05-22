@@ -1,0 +1,27 @@
+name: "TPBank EVO"
+brand: "TPBank"
+category: "Thẻ tín dụng số"
+type: "credit-card"
+short_description: "Thẻ tín dụng số mở online qua eKYC, cashback cao cho giao dịch online."
+specs:
+  han_muc_tu: 5000000
+  han_muc_den: 100000000
+  phi_thuong_nien: "299,000 VND/năm"
+  lai_suat_qua_han: "32% / năm"
+  cashback: "15% giao dịch online (cap 600k/tháng)"
+  thoi_gian_duyet: "Trong ngày"
+pros:
+  - "Mở online 100%, không cần ra chi nhánh"
+  - "Cashback 15% giao dịch online (cao nhất phân khúc)"
+  - "Duyệt trong ngày"
+  - "Phù hợp dân văn phòng mua sắm online"
+cons:
+  - "Cashback cap 600k/tháng, hết cap rồi 0%"
+  - "Phí thường niên thu từ năm đầu"
+  - "Hạn mức ban đầu thấp với người mới"
+conditions:
+  do_tuoi: "22-60 tuổi"
+  thu_nhap_toi_thieu: "8 triệu/tháng"
+  yeu_cau_giay_to: "CMND/CCCD + xác nhận lương qua app"
+affiliate_slug: "tpbank-evo"
+official_url: "https://tpb.vn"

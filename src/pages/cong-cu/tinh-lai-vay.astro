@@ -1,0 +1,33 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import Breadcrumbs from '@components/navigation/Breadcrumbs.astro';
+import LoanCalculator from '@components/tools/LoanCalculator';
+---
+
+<BaseLayout
+  title="Tính lãi vay tiêu dùng — Calculator"
+  description="Công cụ tính tiền trả hàng tháng khi vay tiêu dùng. Nhập khoản vay, lãi suất, kỳ hạn — hiển thị monthly payment và tổng lãi."
+>
+  <div class="container-prose py-12">
+    <Breadcrumbs
+      items={[
+        { name: 'Trang chủ', url: '/' },
+        { name: 'Công cụ', url: '/cong-cu/' },
+        { name: 'Tính lãi vay', url: '/cong-cu/tinh-lai-vay/' },
+      ]}
+    />
+
+    <header class="mt-6">
+      <h1 class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
+        Tính lãi vay tiêu dùng
+      </h1>
+      <p class="mt-3 text-lg text-gray-600">
+        Tính tiền trả mỗi tháng và tổng lãi phải trả khi vay tiêu dùng.
+      </p>
+    </header>
+
+    <div class="mt-8">
+      <LoanCalculator client:load />
+    </div>
+  </div>
+</BaseLayout>

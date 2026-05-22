@@ -1,0 +1,71 @@
+---
+import { CLUSTER_LABELS, clusterUrl } from '@lib/content';
+
+const CLUSTERS_IN_FOOTER = [
+  'the-tin-dung',
+  'tai-khoan-ngan-hang',
+  'vay-tieu-dung',
+  'chung-khoan',
+  'crypto',
+] as const;
+
+const year = new Date().getFullYear();
+---
+
+<footer class="mt-16 border-t border-gray-200 bg-gray-50">
+  <div class="container-wide py-12">
+    <div class="grid gap-8 md:grid-cols-4">
+      <div class="md:col-span-1">
+        <a href="/" class="flex items-center gap-2 text-lg font-bold text-brand-700">
+          <span class="inline-block h-8 w-8 rounded bg-brand-600"></span>
+          <span>Affiliate Hub</span>
+        </a>
+        <p class="mt-3 text-sm text-gray-600">
+          Review tài chính cá nhân Việt Nam — thẻ tín dụng, app vay, ngân hàng số, chứng khoán, crypto.
+        </p>
+      </div>
+
+      <div>
+        <h3 class="text-sm font-semibold text-gray-900">Chuyên mục</h3>
+        <ul class="mt-3 space-y-2 text-sm">
+          {
+            CLUSTERS_IN_FOOTER.map((cluster) => (
+              <li>
+                <a href={clusterUrl(cluster)} class="text-gray-600 hover:text-brand-600">
+                  {CLUSTER_LABELS[cluster]}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+
+      <div>
+        <h3 class="text-sm font-semibold text-gray-900">Công cụ</h3>
+        <ul class="mt-3 space-y-2 text-sm">
+          <li><a href="/cong-cu/the-tin-dung-nao-phu-hop/" class="text-gray-600 hover:text-brand-600">Quiz thẻ phù hợp</a></li>
+          <li><a href="/cong-cu/tinh-lai-vay/" class="text-gray-600 hover:text-brand-600">Tính lãi vay</a></li>
+          <li><a href="/cong-cu/tinh-lai-tiet-kiem/" class="text-gray-600 hover:text-brand-600">Tính lãi tiết kiệm</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h3 class="text-sm font-semibold text-gray-900">Về Affiliate Hub</h3>
+        <ul class="mt-3 space-y-2 text-sm">
+          <li><a href="/ve-chung-toi/" class="text-gray-600 hover:text-brand-600">Về chúng tôi</a></li>
+          <li><a href="/lien-he/" class="text-gray-600 hover:text-brand-600">Liên hệ</a></li>
+          <li><a href="/tuyen-bo-affiliate/" class="text-gray-600 hover:text-brand-600">Tuyên bố affiliate</a></li>
+          <li><a href="/chinh-sach-bao-mat/" class="text-gray-600 hover:text-brand-600">Chính sách bảo mật</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="mt-10 border-t border-gray-200 pt-6 text-sm text-gray-500">
+      <p>
+        © {year} Affiliate Hub. Nội dung trên trang là chia sẻ kinh nghiệm cá nhân, không phải lời khuyên đầu tư.
+        Một số liên kết trên trang là affiliate link — chúng tôi có thể nhận hoa hồng nếu bạn đăng ký qua link mà
+        không phát sinh chi phí cho bạn.
+      </p>
+    </div>
+  </div>
+</footer>

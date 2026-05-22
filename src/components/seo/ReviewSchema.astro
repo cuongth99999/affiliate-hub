@@ -1,0 +1,19 @@
+---
+import JsonLd from './JsonLd.astro';
+import { reviewSchema } from '@lib/schema';
+
+interface Props {
+  productName: string;
+  productBrand: string;
+  productCategory: string;
+  rating: number;
+  reviewBody: string;
+  authorName: string;
+  datePublished: string;
+  url: string;
+}
+
+const props = Astro.props;
+---
+
+<JsonLd data={reviewSchema(props)} />

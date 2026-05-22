@@ -1,0 +1,7 @@
+target_url: "https://accesstrade.vn/aff/PLACEHOLDER_TPBANK_EVO"
+network: "accesstrade"
+campaign_id: "tpbank_evo_2026"
+payout_vnd: 350000
+payout_type: "CPS"
+product_slug: "tpbank-evo"
+active: true

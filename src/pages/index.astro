@@ -1,0 +1,93 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import { CLUSTER_LABELS, CLUSTER_DESCRIPTIONS, clusterUrl, getPublishedPosts, postUrl, TYPE_LABELS } from '@lib/content';
+import { CLUSTERS } from '@content/config';
+
+const FEATURED_CLUSTERS = [
+  'the-tin-dung',
+  'tai-khoan-ngan-hang',
+  'vay-tieu-dung',
+  'chung-khoan',
+  'crypto',
+] as const;
+
+const recent = (await getPublishedPosts()).slice(0, 6);
+---
+
+<BaseLayout
+  title="Affiliate Hub — Tài chính cá nhân Việt Nam"
+  description="Review thẻ tín dụng, app vay, ngân hàng số, chứng khoán, crypto cho người Việt. Honest review, data thật, không quảng cáo trá hình."
+  showOrgSchema
+>
+  <section class="bg-gradient-to-b from-brand-50 to-white">
+    <div class="container-wide py-16 sm:py-20">
+      <div class="max-w-2xl">
+        <h1 class="text-4xl font-bold tracking-tight text-gray-900 sm:text-5xl">
+          Tài chính cá nhân Việt Nam — review honest, data thật
+        </h1>
+        <p class="mt-5 text-lg text-gray-700">
+          So sánh thẻ tín dụng, app vay, sàn chứng khoán và sàn crypto cho người Việt. Không hô hào,
+          không hứa hẹn — chỉ trải nghiệm thực tế và số liệu.
+        </p>
+        <div class="mt-7 flex flex-wrap gap-3">
+          <a
+            href="/cong-cu/the-tin-dung-nao-phu-hop/"
+            class="rounded-md bg-brand-600 px-5 py-3 text-base font-semibold text-white shadow-sm hover:bg-brand-700"
+          >
+            Tìm thẻ phù hợp
+          </a>
+          <a
+            href="/the-tin-dung/"
+            class="rounded-md border border-gray-300 bg-white px-5 py-3 text-base font-semibold text-gray-700 hover:bg-gray-50"
+          >
+            Khám phá chuyên mục
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="container-wide py-12">
+    <h2 class="text-2xl font-bold text-gray-900">Chuyên mục</h2>
+    <div class="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      {
+        FEATURED_CLUSTERS.map((cluster) => (
+          <a
+            href={clusterUrl(cluster)}
+            class="group rounded-xl border border-gray-200 bg-white p-6 transition-shadow hover:shadow-md"
+          >
+            <h3 class="text-xl font-bold text-gray-900 group-hover:text-brand-700">
+              {CLUSTER_LABELS[cluster]}
+            </h3>
+            <p class="mt-2 text-sm text-gray-600">{CLUSTER_DESCRIPTIONS[cluster]}</p>
+            <span class="mt-3 inline-block text-sm font-semibold text-brand-600 group-hover:underline">
+              Xem chi tiết →
+            </span>
+          </a>
+        ))
+      }
+    </div>
+  </section>
+
+  {recent.length > 0 && (
+    <section class="container-wide py-12">
+      <h2 class="text-2xl font-bold text-gray-900">Bài viết mới nhất</h2>
+      <div class="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        {recent.map((post) => (
+          <a
+            href={postUrl(post)}
+            class="group rounded-lg border border-gray-200 bg-white p-5 transition-shadow hover:shadow-md"
+          >
+            <div class="text-xs font-semibold uppercase tracking-wide text-brand-600">
+              {CLUSTER_LABELS[post.data.cluster]} · {TYPE_LABELS[post.data.type]}
+            </div>
+            <h3 class="mt-2 line-clamp-2 text-lg font-semibold text-gray-900 group-hover:text-brand-700">
+              {post.data.title}
+            </h3>
+            <p class="mt-2 line-clamp-3 text-sm text-gray-600">{post.data.description}</p>
+          </a>
+        ))}
+      </div>
+    </section>
+  )}
+</BaseLayout>

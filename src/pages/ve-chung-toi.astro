@@ -1,0 +1,42 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import Breadcrumbs from '@components/navigation/Breadcrumbs.astro';
+---
+
+<BaseLayout
+  title="Về chúng tôi"
+  description="Affiliate Hub — đội ngũ chia sẻ kiến thức tài chính cá nhân Việt Nam với góc nhìn thực tế, honest review, không hô hào."
+>
+  <div class="container-prose py-12">
+    <Breadcrumbs items={[{ name: 'Trang chủ', url: '/' }, { name: 'Về chúng tôi', url: '/ve-chung-toi/' }]} />
+
+    <article class="prose prose-lg mt-6 max-w-none">
+      <h1>Về Affiliate Hub</h1>
+      <p class="lead">
+        Affiliate Hub là blog tài chính cá nhân cho người Việt — review thẻ tín dụng, app vay, ngân
+        hàng số, chứng khoán và crypto từ góc nhìn người dùng thực tế.
+      </p>
+
+      <h2>Sứ mệnh</h2>
+      <p>
+        Giúp người Việt 22-40 tuổi đưa ra quyết định tài chính tốt hơn dựa trên data và trải nghiệm thực,
+        không phải PR trá hình.
+      </p>
+
+      <h2>Cách chúng tôi làm việc</h2>
+      <ul>
+        <li>Tự đăng ký, dùng và đánh giá từng sản phẩm trước khi review</li>
+        <li>Số liệu trích dẫn từ nguồn chính thức (SBV, ngân hàng, công ty chứng khoán)</li>
+        <li>Cập nhật bài viết định kỳ khi sản phẩm thay đổi điều khoản</li>
+        <li>Công khai mọi affiliate link, không che giấu</li>
+      </ul>
+
+      <h2>Lưu ý quan trọng</h2>
+      <p>
+        Tất cả nội dung trên Affiliate Hub là chia sẻ kinh nghiệm cá nhân, <strong>không phải lời khuyên
+        đầu tư hay tư vấn tài chính chuyên nghiệp</strong>. Quyết định cuối cùng phụ thuộc vào bạn — chúng
+        tôi chỉ cung cấp thông tin để bạn cân nhắc.
+      </p>
+    </article>
+  </div>
+</BaseLayout>

@@ -1,0 +1,34 @@
+---
+import type { MarkdownHeading } from 'astro';
+
+interface Props {
+  headings: MarkdownHeading[];
+  maxDepth?: number;
+}
+
+const { headings, maxDepth = 3 } = Astro.props;
+const filtered = headings.filter((h) => h.depth >= 2 && h.depth <= maxDepth);
+---
+
+{
+  filtered.length > 1 && (
+    <nav
+      aria-label="Mục lục"
+      class="my-6 rounded-lg border border-gray-200 bg-gray-50 p-5 text-sm"
+    >
+      <p class="mb-3 font-semibold text-gray-900">Mục lục</p>
+      <ol class="space-y-1.5">
+        {filtered.map((heading) => (
+          <li class:list={[heading.depth === 3 && 'ml-4']}>
+            <a
+              href={`#${heading.slug}`}
+              class="text-gray-700 transition-colors hover:text-brand-600"
+            >
+              {heading.text}
+            </a>
+          </li>
+        ))}
+      </ol>
+    </nav>
+  )
+}

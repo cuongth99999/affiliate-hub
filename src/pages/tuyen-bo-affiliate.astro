@@ -1,0 +1,73 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import Breadcrumbs from '@components/navigation/Breadcrumbs.astro';
+---
+
+<BaseLayout
+  title="Tuyên bố Affiliate"
+  description="Tuyên bố minh bạch về cách Affiliate Hub kiếm doanh thu qua affiliate marketing — không che giấu, không lừa người đọc."
+>
+  <div class="container-prose py-12">
+    <Breadcrumbs
+      items={[
+        { name: 'Trang chủ', url: '/' },
+        { name: 'Tuyên bố affiliate', url: '/tuyen-bo-affiliate/' },
+      ]}
+    />
+
+    <article class="prose prose-lg mt-6 max-w-none">
+      <h1>Tuyên bố Affiliate</h1>
+      <p class="lead">
+        Affiliate Hub kiếm doanh thu chủ yếu qua affiliate marketing. Trang này giải thích chi tiết
+        cách hoạt động và cam kết minh bạch của chúng tôi.
+      </p>
+
+      <h2>Affiliate là gì?</h2>
+      <p>
+        Khi bạn click vào một số liên kết trên trang và đăng ký dịch vụ (thẻ tín dụng, mở tài khoản
+        ngân hàng, sàn chứng khoán, v.v.), Affiliate Hub có thể nhận một khoản hoa hồng từ nhà cung cấp.
+        <strong>Bạn không phải trả thêm bất kỳ chi phí nào</strong> — hoa hồng đến từ ngân sách marketing
+        của họ.
+      </p>
+
+      <h2>Đối tác affiliate</h2>
+      <ul>
+        <li>Mạng affiliate: Accesstrade, Masoffer, Adflex</li>
+        <li>Trực tiếp: Binance, Bybit, TikTok Shop, Shopee</li>
+        <li>SaaS: Hostinger, Canva, Notion (audience global)</li>
+      </ul>
+
+      <h2>Cam kết của chúng tôi</h2>
+      <ul>
+        <li>
+          <strong>Đánh giá honest:</strong> Hoa hồng KHÔNG ảnh hưởng đến nội dung review. Sản phẩm dở
+          vẫn nói dở, kể cả khi affiliate trả cao.
+        </li>
+        <li>
+          <strong>Đánh dấu rõ:</strong> Mọi affiliate link được gắn <code>rel="nofollow sponsored"</code>
+          theo chuẩn Google.
+        </li>
+        <li>
+          <strong>Đa dạng nguồn thu:</strong> Không phụ thuộc 1 nhà cung cấp — chúng tôi có thể từ chối
+          khuyến nghị sản phẩm tệ.
+        </li>
+        <li>
+          <strong>Không quảng cáo trá hình:</strong> Bài "review" trá hình PR luôn được đánh dấu nếu có.
+        </li>
+      </ul>
+
+      <h2>Câu hỏi thường gặp</h2>
+      <h3>Tại sao bạn không che giấu affiliate?</h3>
+      <p>
+        Vì điều đó vi phạm hướng dẫn của Google (cookie consent + transparency) và FTC. Quan trọng hơn,
+        chúng tôi muốn người đọc tin tưởng — và niềm tin chỉ có khi minh bạch.
+      </p>
+
+      <h3>Nếu tôi không muốn dùng affiliate link?</h3>
+      <p>
+        Bạn có thể tự search tên sản phẩm trên Google và đăng ký trực tiếp với nhà cung cấp. Affiliate
+        Hub không nhận hoa hồng nhưng cũng không phiền bạn — chúng tôi vẫn có nguồn thu từ độc giả khác.
+      </p>
+    </article>
+  </div>
+</BaseLayout>

@@ -1,0 +1,57 @@
+---
+import BreadcrumbSchema from '@components/seo/BreadcrumbSchema.astro';
+import type { BreadcrumbItem } from '@lib/schema';
+
+interface Props {
+  items: BreadcrumbItem[];
+}
+
+const { items } = Astro.props;
+const siteUrl = Astro.site?.toString().replace(/\/$/, '') ?? '';
+
+const schemaItems: BreadcrumbItem[] = items.map((item) => ({
+  name: item.name,
+  url: item.url.startsWith('http') ? item.url : `${siteUrl}${item.url}`,
+}));
+---
+
+{
+  items.length > 0 && (
+    <>
+      <nav aria-label="Breadcrumb" class="text-sm">
+        <ol class="flex flex-wrap items-center gap-1.5 text-gray-600">
+          {items.map((item, i) => (
+            <li class="flex items-center gap-1.5">
+              {i > 0 && (
+                <svg
+                  class="h-3.5 w-3.5 text-gray-400"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                  aria-hidden="true"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M9 5l7 7-7 7"
+                  />
+                </svg>
+              )}
+              {i === items.length - 1 ? (
+                <span class="font-medium text-gray-900" aria-current="page">
+                  {item.name}
+                </span>
+              ) : (
+                <a href={item.url} class="hover:text-brand-600">
+                  {item.name}
+                </a>
+              )}
+            </li>
+          ))}
+        </ol>
+      </nav>
+      <BreadcrumbSchema items={schemaItems} />
+    </>
+  )
+}

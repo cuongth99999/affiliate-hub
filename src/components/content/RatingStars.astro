@@ -1,0 +1,46 @@
+---
+interface Props {
+  rating: number;
+  max?: number;
+  showNumber?: boolean;
+}
+
+const { rating, max = 5, showNumber = true } = Astro.props;
+const clamped = Math.max(0, Math.min(rating, max));
+const full = Math.floor(clamped);
+const hasHalf = clamped - full >= 0.25 && clamped - full < 0.75;
+const filled = hasHalf ? full + 0.5 : Math.round(clamped);
+---
+
+<div class="flex items-center gap-1.5" role="img" aria-label={`${clamped}/${max} sao`}>
+  <div class="flex">
+    {
+      Array.from({ length: max }).map((_, i) => {
+        const fillPct = Math.max(0, Math.min(1, filled - i)) * 100;
+        return (
+          <div class="relative h-4 w-4">
+            <svg
+              class="absolute inset-0 h-4 w-4 text-gray-300"
+              fill="currentColor"
+              viewBox="0 0 20 20"
+              aria-hidden="true"
+            >
+              <path d="M9.05 2.927a1 1 0 011.9 0l1.745 4.327 4.661.367a1 1 0 01.566 1.756l-3.553 3.063 1.085 4.553a1 1 0 01-1.493 1.085L10 15.347l-4.061 2.731a1 1 0 01-1.493-1.085l1.085-4.553L1.978 9.377a1 1 0 01.566-1.756l4.661-.367L9.05 2.927z" />
+            </svg>
+            <div class="absolute inset-0 overflow-hidden" style={`width: ${fillPct}%`}>
+              <svg
+                class="h-4 w-4 text-amber-400"
+                fill="currentColor"
+                viewBox="0 0 20 20"
+                aria-hidden="true"
+              >
+                <path d="M9.05 2.927a1 1 0 011.9 0l1.745 4.327 4.661.367a1 1 0 01.566 1.756l-3.553 3.063 1.085 4.553a1 1 0 01-1.493 1.085L10 15.347l-4.061 2.731a1 1 0 01-1.493-1.085l1.085-4.553L1.978 9.377a1 1 0 01.566-1.756l4.661-.367L9.05 2.927z" />
+              </svg>
+            </div>
+          </div>
+        );
+      })
+    }
+  </div>
+  {showNumber && <span class="text-sm font-medium text-gray-700">{clamped.toFixed(1)}/{max}</span>}
+</div>

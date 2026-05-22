@@ -1,0 +1,27 @@
+name: "VPBank Lady Mastercard"
+brand: "VPBank"
+category: "Thẻ tín dụng nữ giới"
+type: "credit-card"
+short_description: "Thẻ tín dụng dành cho phụ nữ, cashback cao mua sắm, miễn phí thường niên năm đầu."
+specs:
+  han_muc_tu: 10000000
+  han_muc_den: 200000000
+  phi_thuong_nien: "Miễn năm đầu, từ năm 2: 350,000 VND"
+  lai_suat_qua_han: "30% / năm"
+  cashback: "6% mua sắm, 1% giao dịch khác"
+  thoi_gian_duyet: "24-48h"
+pros:
+  - "Phí thường niên miễn năm đầu"
+  - "Cashback 6% danh mục mua sắm"
+  - "Quy trình eKYC nhanh, không cần ra chi nhánh"
+  - "Hạn mức ban đầu khá tốt cho người lương 10tr+"
+cons:
+  - "Lãi suất quá hạn 30%/năm — phải trả đúng hạn"
+  - "Phí rút tiền mặt 4% (min 60k)"
+  - "Cashback có cap 200k/tháng"
+conditions:
+  do_tuoi: "21-60 tuổi"
+  thu_nhap_toi_thieu: "7 triệu/tháng"
+  yeu_cau_giay_to: "CMND/CCCD + bảng lương 3 tháng gần nhất"
+affiliate_slug: "vpbank-lady"
+official_url: "https://www.vpbank.com.vn"

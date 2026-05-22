@@ -1,0 +1,33 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import Breadcrumbs from '@components/navigation/Breadcrumbs.astro';
+import SavingsCalculator from '@components/tools/SavingsCalculator';
+---
+
+<BaseLayout
+  title="Tính lãi tiết kiệm — Calculator"
+  description="Tính tiền lãi nhận khi gửi tiết kiệm ngân hàng theo kỳ hạn và lãi suất."
+>
+  <div class="container-prose py-12">
+    <Breadcrumbs
+      items={[
+        { name: 'Trang chủ', url: '/' },
+        { name: 'Công cụ', url: '/cong-cu/' },
+        { name: 'Tính lãi tiết kiệm', url: '/cong-cu/tinh-lai-tiet-kiem/' },
+      ]}
+    />
+
+    <header class="mt-6">
+      <h1 class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
+        Tính lãi tiết kiệm
+      </h1>
+      <p class="mt-3 text-lg text-gray-600">
+        Nhập số tiền gửi, lãi suất ngân hàng, kỳ hạn — xem tiền nhận khi đáo hạn.
+      </p>
+    </header>
+
+    <div class="mt-8">
+      <SavingsCalculator client:load />
+    </div>
+  </div>
+</BaseLayout>

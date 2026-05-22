@@ -1,0 +1,41 @@
+---
+import AffiliateLink from './AffiliateLink.astro';
+
+interface Props {
+  slug: string;
+  variant?: 'primary' | 'secondary';
+  size?: 'sm' | 'md' | 'lg';
+}
+
+const { slug, variant = 'primary', size = 'md' } = Astro.props;
+
+const variantClasses = {
+  primary: 'bg-brand-600 text-white hover:bg-brand-700 shadow-sm',
+  secondary: 'bg-white text-brand-700 border border-brand-600 hover:bg-brand-50',
+};
+
+const sizeClasses = {
+  sm: 'px-3 py-1.5 text-sm',
+  md: 'px-4 py-2 text-base',
+  lg: 'px-6 py-3 text-lg',
+};
+
+const classes = [
+  'inline-flex items-center justify-center gap-2 rounded-md font-semibold transition-colors',
+  variantClasses[variant],
+  sizeClasses[size],
+].join(' ');
+---
+
+<AffiliateLink slug={slug} class={classes}>
+  <slot />
+  <svg
+    class="h-4 w-4"
+    fill="none"
+    stroke="currentColor"
+    viewBox="0 0 24 24"
+    aria-hidden="true"
+  >
+    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+  </svg>
+</AffiliateLink>

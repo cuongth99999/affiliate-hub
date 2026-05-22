@@ -1,0 +1,49 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import type { MarkdownHeading } from 'astro';
+import { getEntry } from 'astro:content';
+import PostLayout from './PostLayout.astro';
+import ProductCard from '@components/affiliate/ProductCard.astro';
+import FaqSchema from '@components/seo/FaqSchema.astro';
+
+interface Props {
+  post: CollectionEntry<'posts'>;
+  headings: MarkdownHeading[];
+}
+
+const { post, headings } = Astro.props;
+const { products, faqs } = post.data;
+
+const productEntries = products
+  ? await Promise.all(products.map((ref) => getEntry(ref)))
+  : [];
+const validProducts = productEntries.filter((p): p is NonNullable<typeof p> => p !== undefined);
+---
+
+<PostLayout post={post} headings={headings}>
+  {faqs && faqs.length > 0 && <FaqSchema slot="head" items={faqs} />}
+
+  {validProducts.length > 0 && (
+    <div class="not-prose my-6 grid gap-4 md:grid-cols-2">
+      {validProducts.map((p) => (
+        <ProductCard product={p} cta="Đăng ký" />
+      ))}
+    </div>
+  )}
+
+  <slot />
+
+  {faqs && faqs.length > 0 && (
+    <section slot="after-body" class="mt-10">
+      <h2 class="text-2xl font-bold text-gray-900">Câu hỏi thường gặp</h2>
+      <div class="mt-4 space-y-4">
+        {faqs.map((faq) => (
+          <details class="group rounded-lg border border-gray-200 bg-white p-4">
+            <summary class="cursor-pointer font-semibold text-gray-900">{faq.q}</summary>
+            <p class="mt-2 text-gray-700">{faq.a}</p>
+          </details>
+        ))}
+      </div>
+    </section>
+  )}
+</PostLayout>

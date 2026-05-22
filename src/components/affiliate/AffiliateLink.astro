@@ -1,0 +1,21 @@
+---
+import { affiliateUrl, AFFILIATE_LINK_ATTRS } from '@lib/affiliate';
+
+interface Props {
+  slug: string;
+  class?: string;
+}
+
+const { slug, class: className } = Astro.props;
+const href = affiliateUrl(slug);
+---
+
+<a
+  href={href}
+  rel={AFFILIATE_LINK_ATTRS.rel}
+  target={AFFILIATE_LINK_ATTRS.target}
+  data-affiliate-slug={slug}
+  class={className}
+>
+  <slot />
+</a>

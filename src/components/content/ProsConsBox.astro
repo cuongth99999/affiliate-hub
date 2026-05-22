@@ -1,0 +1,56 @@
+---
+interface Props {
+  pros: string[];
+  cons: string[];
+}
+
+const { pros, cons } = Astro.props;
+---
+
+<div class="my-6 grid gap-4 md:grid-cols-2">
+  <div class="rounded-lg border border-emerald-200 bg-emerald-50 p-5">
+    <h4 class="mb-3 flex items-center gap-2 text-base font-semibold text-emerald-900">
+      <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 20 20">
+        <path
+          fill-rule="evenodd"
+          d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+          clip-rule="evenodd"
+        />
+      </svg>
+      Ưu điểm
+    </h4>
+    <ul class="space-y-1.5 text-sm text-emerald-900">
+      {
+        pros.map((pro) => (
+          <li class="flex gap-2">
+            <span class="text-emerald-600">+</span>
+            <span>{pro}</span>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+
+  <div class="rounded-lg border border-rose-200 bg-rose-50 p-5">
+    <h4 class="mb-3 flex items-center gap-2 text-base font-semibold text-rose-900">
+      <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 20 20">
+        <path
+          fill-rule="evenodd"
+          d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
+          clip-rule="evenodd"
+        />
+      </svg>
+      Nhược điểm
+    </h4>
+    <ul class="space-y-1.5 text-sm text-rose-900">
+      {
+        cons.map((con) => (
+          <li class="flex gap-2">
+            <span class="text-rose-600">−</span>
+            <span>{con}</span>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</div>

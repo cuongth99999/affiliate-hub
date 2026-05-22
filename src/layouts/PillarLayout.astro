@@ -1,0 +1,101 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import type { MarkdownHeading } from 'astro';
+import BaseLayout from './BaseLayout.astro';
+import Breadcrumbs from '@components/navigation/Breadcrumbs.astro';
+import RelatedPosts from '@components/content/RelatedPosts.astro';
+import TableOfContents from '@components/content/TableOfContents.astro';
+import { CLUSTER_LABELS, clusterUrl, getPostsByCluster, postUrl, TYPE_LABELS } from '@lib/content';
+import type { Cluster } from '@content/config';
+
+interface Props {
+  post: CollectionEntry<'posts'>;
+  headings: MarkdownHeading[];
+}
+
+const { post, headings } = Astro.props;
+const { title, description, cluster } = post.data;
+
+const allInCluster = await getPostsByCluster(cluster as Cluster);
+const reviews = allInCluster.filter((p) => p.data.type === 'review');
+const comparisons = allInCluster.filter((p) => p.data.type === 'comparison');
+const guides = allInCluster.filter((p) => p.data.type === 'guide');
+
+const breadcrumbs = [
+  { name: 'Trang chủ', url: '/' },
+  { name: CLUSTER_LABELS[cluster as Cluster], url: clusterUrl(cluster as Cluster) },
+];
+---
+
+<BaseLayout title={title} description={description}>
+  <div class="container-wide py-8">
+    <Breadcrumbs items={breadcrumbs} />
+
+    <header class="mt-6 max-w-3xl">
+      <h1 class="text-4xl font-bold tracking-tight text-gray-900">{title}</h1>
+      <p class="mt-3 text-lg text-gray-600">{description}</p>
+    </header>
+
+    <div class="mt-8 grid gap-8 lg:grid-cols-[1fr_300px]">
+      <article class="prose prose-lg max-w-none">
+        <TableOfContents headings={headings} />
+        <slot />
+      </article>
+
+      <aside class="space-y-6 lg:sticky lg:top-20 lg:self-start">
+        {reviews.length > 0 && (
+          <div class="rounded-lg border border-gray-200 bg-gray-50 p-5">
+            <h3 class="text-sm font-semibold uppercase tracking-wide text-gray-900">
+              {TYPE_LABELS.review}
+            </h3>
+            <ul class="mt-3 space-y-2 text-sm">
+              {reviews.slice(0, 6).map((p) => (
+                <li>
+                  <a href={postUrl(p)} class="text-brand-700 hover:underline">
+                    {p.data.title}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
+
+        {comparisons.length > 0 && (
+          <div class="rounded-lg border border-gray-200 bg-gray-50 p-5">
+            <h3 class="text-sm font-semibold uppercase tracking-wide text-gray-900">
+              {TYPE_LABELS.comparison}
+            </h3>
+            <ul class="mt-3 space-y-2 text-sm">
+              {comparisons.slice(0, 6).map((p) => (
+                <li>
+                  <a href={postUrl(p)} class="text-brand-700 hover:underline">
+                    {p.data.title}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
+
+        {guides.length > 0 && (
+          <div class="rounded-lg border border-gray-200 bg-gray-50 p-5">
+            <h3 class="text-sm font-semibold uppercase tracking-wide text-gray-900">
+              {TYPE_LABELS.guide}
+            </h3>
+            <ul class="mt-3 space-y-2 text-sm">
+              {guides.slice(0, 6).map((p) => (
+                <li>
+                  <a href={postUrl(p)} class="text-brand-700 hover:underline">
+                    {p.data.title}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
+      </aside>
+    </div>
+
+    <RelatedPosts posts={allInCluster.slice(0, 6)} title="Tất cả bài viết trong chuyên mục" />
+  </div>
+</BaseLayout>

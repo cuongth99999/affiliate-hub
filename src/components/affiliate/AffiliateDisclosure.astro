@@ -1,0 +1,21 @@
+---
+interface Props {
+  variant?: 'inline' | 'box';
+}
+
+const { variant = 'inline' } = Astro.props;
+---
+
+{
+  variant === 'box' ? (
+    <aside class="my-6 rounded-lg border border-amber-200 bg-amber-50 p-4 text-sm text-amber-900">
+      <strong>Tuyên bố affiliate:</strong> Bài viết có chứa liên kết affiliate. Nếu bạn đăng ký sản phẩm qua link
+      của chúng tôi, chúng tôi có thể nhận hoa hồng từ nhà cung cấp — không phát sinh chi phí cho bạn. Đánh giá
+      và khuyến nghị được đưa ra dựa trên trải nghiệm và nghiên cứu cá nhân, không phụ thuộc vào hoa hồng.
+    </aside>
+  ) : (
+    <p class="text-xs italic text-gray-500">
+      Bài viết chứa affiliate link. <a href="/tuyen-bo-affiliate/" class="underline">Tìm hiểu thêm</a>.
+    </p>
+  )
+}

@@ -1,0 +1,35 @@
+---
+import { postUrl, TYPE_LABELS } from '@lib/content';
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+  posts: CollectionEntry<'posts'>[];
+  title?: string;
+}
+
+const { posts, title = 'Bài viết liên quan' } = Astro.props;
+---
+
+{
+  posts.length > 0 && (
+    <section class="my-10">
+      <h2 class="mb-4 text-2xl font-bold text-gray-900">{title}</h2>
+      <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        {posts.map((post) => (
+          <a
+            href={postUrl(post)}
+            class="group rounded-lg border border-gray-200 bg-white p-5 transition-shadow hover:shadow-md"
+          >
+            <div class="text-xs font-semibold uppercase tracking-wide text-brand-600">
+              {TYPE_LABELS[post.data.type]}
+            </div>
+            <h3 class="mt-2 line-clamp-2 text-base font-semibold text-gray-900 group-hover:text-brand-700">
+              {post.data.title}
+            </h3>
+            <p class="mt-2 line-clamp-2 text-sm text-gray-600">{post.data.description}</p>
+          </a>
+        ))}
+      </div>
+    </section>
+  )
+}

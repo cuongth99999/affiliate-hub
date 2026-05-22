@@ -1,0 +1,31 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import type { MarkdownHeading } from 'astro';
+import PostLayout from './PostLayout.astro';
+import FaqSchema from '@components/seo/FaqSchema.astro';
+
+interface Props {
+  post: CollectionEntry<'posts'>;
+  headings: MarkdownHeading[];
+}
+
+const { post, headings } = Astro.props;
+const { faqs } = post.data;
+---
+
+<PostLayout post={post} headings={headings} showTOC={false}>
+  {faqs && faqs.length > 0 && <FaqSchema slot="head" items={faqs} />}
+
+  <slot />
+
+  {faqs && faqs.length > 0 && (
+    <section class="not-prose my-6 space-y-4">
+      {faqs.map((faq, i) => (
+        <article id={`faq-${i + 1}`} class="rounded-lg border border-gray-200 bg-white p-5">
+          <h2 class="text-lg font-semibold text-gray-900">{faq.q}</h2>
+          <p class="mt-2 text-gray-700">{faq.a}</p>
+        </article>
+      ))}
+    </section>
+  )}
+</PostLayout>

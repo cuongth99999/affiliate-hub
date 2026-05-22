@@ -1,0 +1,47 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import type { MarkdownHeading } from 'astro';
+import { getEntry } from 'astro:content';
+import PostLayout from './PostLayout.astro';
+import ProductCard from '@components/affiliate/ProductCard.astro';
+import JsonLd from '@components/seo/JsonLd.astro';
+import { itemListSchema } from '@lib/schema';
+import { canonicalUrl } from '@lib/utils';
+import { postUrl } from '@lib/content';
+
+interface Props {
+  post: CollectionEntry<'posts'>;
+  headings: MarkdownHeading[];
+}
+
+const { post, headings } = Astro.props;
+const { products } = post.data;
+
+const productEntries = products
+  ? await Promise.all(products.map((ref) => getEntry(ref)))
+  : [];
+const validProducts = productEntries.filter((p): p is NonNullable<typeof p> => p !== undefined);
+
+const siteUrl = Astro.site?.toString() ?? '';
+const itemList = validProducts.map((p, i) => ({
+  name: `${i + 1}. ${p.data.name}`,
+  url: canonicalUrl(postUrl(post), siteUrl) + `#${p.id}`,
+}));
+---
+
+<PostLayout post={post} headings={headings}>
+  {itemList.length > 0 && <JsonLd slot="head" data={itemListSchema(itemList)} />}
+
+  <slot />
+
+  {validProducts.length > 0 && (
+    <div class="not-prose my-6 space-y-4">
+      {validProducts.map((p, i) => (
+        <div id={p.id} class="rounded-xl border border-gray-200 bg-white p-5">
+          <div class="text-sm font-semibold text-brand-600">#{i + 1}</div>
+          <ProductCard product={p} highlight={i === 0} />
+        </div>
+      ))}
+    </div>
+  )}
+</PostLayout>
