@@ -6,8 +6,6 @@ import ComparisonLayout from '@layouts/ComparisonLayout.astro';
 import GuideLayout from '@layouts/GuideLayout.astro';
 import FaqLayout from '@layouts/FaqLayout.astro';
 import ListicleLayout from '@layouts/ListicleLayout.astro';
-import { CLUSTERS } from '@content/config';
-
 export async function getStaticPaths() {
   const posts = await getCollection('posts', ({ data }) => !data.draft && data.type !== 'pillar');
   return posts.map((post) => {

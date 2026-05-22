@@ -17,7 +17,7 @@ interface Props {
 }
 
 const { post, headings } = Astro.props;
-const { rating, pros, cons, product, faqs, date, author, title } = post.data;
+const { rating, pros, cons, product, faqs, date, author } = post.data;
 
 const productEntry = product ? await getEntry(product) : null;
 const authorEntry = await getEntry(author);

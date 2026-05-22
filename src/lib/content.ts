@@ -1,4 +1,4 @@
-import { getCollection, getEntry, getEntries, type CollectionEntry } from 'astro:content';
+import { getCollection, getEntries, type CollectionEntry } from 'astro:content';
 import type { Cluster, PostType } from '../content/config';
 
 export const CLUSTER_LABELS: Record<Cluster, string> = {

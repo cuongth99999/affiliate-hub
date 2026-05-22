@@ -25,7 +25,6 @@ const { title, description, cluster, type, date, modified, author, featured_imag
 // Resolve author entry → get clean slug regardless of legacy ref shape
 const authorEntry = await getEntry(author);
 const authorSlug = authorEntry?.slug ?? '';
-const authorName = authorEntry?.data.name ?? '';
 
 const siteUrl = Astro.site?.toString() ?? 'https://affiliate-hub.vn/';
 const url = canonicalUrl(postUrl(post), siteUrl);

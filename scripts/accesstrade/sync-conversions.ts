@@ -13,7 +13,7 @@ import { writeFile, mkdir } from 'node:fs/promises';
 import { existsSync } from 'node:fs';
 import path from 'node:path';
 import { createLogger } from '../shared/logger';
-import { isoDate, daysAgo, repoPath } from '../pipeline/utils';
+import { daysAgo, repoPath } from '../pipeline/utils';
 import { listTransactions } from './client';
 import type { AccesstradeTransaction } from './types';
 

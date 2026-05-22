@@ -18,7 +18,6 @@ import { env } from '../shared/env';
 import { createLogger } from '../shared/logger';
 import { gitAdd, gitCheckoutBranch, gitCommit, gitHasChanges, isoDate, repoPath } from './utils';
 import { writeJson, readJsonSafe } from './utils';
-import path from 'node:path';
 import { syncCampaigns } from '../accesstrade/sync-campaigns';
 import { findHotCampaigns } from '../accesstrade/find-hot';
 import { draftReview, type DraftResult } from '../content/draft-post';

@@ -7,4 +7,4 @@ const { data } = Astro.props;
 const payload = Array.isArray(data) ? data : [data];
 ---
 
-{payload.map((d) => <script type="application/ld+json" set:html={JSON.stringify(d)} />)}
+{payload.map((d) => <script is:inline type="application/ld+json" set:html={JSON.stringify(d)} />)}

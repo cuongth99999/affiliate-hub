@@ -9,7 +9,7 @@
  * Idempotent: re-running won't create duplicates.
  * Outputs summary stats for the pipeline orchestrator.
  */
-import { writeFile, readFile, mkdir } from 'node:fs/promises';
+import { writeFile, mkdir } from 'node:fs/promises';
 import path from 'node:path';
 import { existsSync } from 'node:fs';
 import { createLogger } from '../shared/logger';

@@ -17,7 +17,10 @@ const { name, bio, role, expertise } = author.data;
 
 const allPosts = await getCollection('posts', ({ data }) => !data.draft);
 const authorPosts = allPosts
-  .filter((p) => p.data.author.slug === author.slug)
+  .filter((p) => {
+    const ref = p.data.author as { id?: string; slug?: string };
+    return (ref.id ?? ref.slug) === author.slug;
+  })
   .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
 ---
 
