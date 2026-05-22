@@ -6,7 +6,7 @@ pages_build_output_dir = "dist"
 [[d1_databases]]
 binding = "DB"
 database_name = "affiliate-hub-clicks"
-database_id = "REPLACE_WITH_REAL_ID"
+database_id = "658b8281-a1c5-4816-90f6-8de82749ebb5"
 
 # Optional: secrets are set via `wrangler pages secret put <name>`
 # - BEEHIIV_API_KEY
