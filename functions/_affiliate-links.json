@@ -1,0 +1,20 @@
+{
+  "cake-bank": {
+    "target_url": "https://accesstrade.vn/aff/PLACEHOLDER_CAKE",
+    "network": "accesstrade",
+    "campaign_id": "cake_2026",
+    "active": true
+  },
+  "tpbank-evo": {
+    "target_url": "https://accesstrade.vn/aff/PLACEHOLDER_TPBANK_EVO",
+    "network": "accesstrade",
+    "campaign_id": "tpbank_evo_2026",
+    "active": true
+  },
+  "vpbank-lady": {
+    "target_url": "https://accesstrade.vn/aff/PLACEHOLDER_VPBANK_LADY",
+    "network": "accesstrade",
+    "campaign_id": "vpbank_lady_2026",
+    "active": true
+  }
+}

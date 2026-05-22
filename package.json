@@ -7,7 +7,8 @@
   "scripts": {
     "dev": "astro dev",
     "start": "astro dev",
-    "build": "astro check && astro build",
+    "build": "tsx scripts/build-affiliate-links.ts && astro check && astro build",
+    "build:links": "tsx scripts/build-affiliate-links.ts",
     "preview": "astro preview",
     "astro": "astro",
     "check": "astro check",
